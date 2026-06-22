@@ -8,11 +8,12 @@ import {
   AP_Button,
   AP_StatusPill,
   AP_EmptyState,
+  AP_Icon,
   useI18n,
   colors,
 } from '@apex/shared';
 import { useAuth } from '../navigation/AuthContext';
-import { ROLE_QA } from '../roles';
+import { ROLE_QA, QA_ICONS, ROLE_ICON } from '../roles';
 import { api, ClassDto, IncidentDto } from '../api';
 
 /** Role-tailored dashboard. Teachers see today's classes (via clientProxy); admin sees metrics. */
@@ -43,12 +44,19 @@ export const TodayScreen: React.FC = () => {
   return (
     <AP_Screen>
       <AP_Card hero title={t('greetingAm')}>
-        <AP_Text variant="h2" color={colors.white}>
-          {t(role === 'nurse' ? 'nurseR' : role)}
-        </AP_Text>
-        <AP_Text variant="caption" color={colors.white}>
-          {t('limitedRole')}
-        </AP_Text>
+        <View style={styles.heroRow}>
+          <View style={styles.heroPulse}>
+            <AP_Icon name={ROLE_ICON[role].icon} size={26} color={colors.white} />
+          </View>
+          <View style={styles.heroBody}>
+            <AP_Text variant="h2" color={colors.white}>
+              {t(role === 'nurse' ? 'nurseR' : role)}
+            </AP_Text>
+            <AP_Text variant="caption" color={colors.white}>
+              {t('limitedRole')}
+            </AP_Text>
+          </View>
+        </View>
       </AP_Card>
 
       {role === 'admin' ? (
@@ -87,7 +95,19 @@ export const TodayScreen: React.FC = () => {
           <AP_EmptyState message={t('noPending')} />
         ) : (
           pending.map((p) => (
-            <AP_ListItem key={p.id} tone={p.priority} title={p.studentName} description={p.type} />
+            <AP_ListItem
+              key={p.id}
+              tone={p.priority}
+              leading={
+                <AP_Icon
+                  name={p.priority === 'high' ? 'activity' : p.priority === 'med' ? 'alert' : 'flag'}
+                  size={20}
+                  color={p.priority === 'high' ? colors.high : p.priority === 'med' ? colors.medInk : colors.low}
+                />
+              }
+              title={p.studentName}
+              description={p.type}
+            />
           ))
         )}
       </AP_Card>
@@ -95,7 +115,12 @@ export const TodayScreen: React.FC = () => {
       <AP_Card title={t('quickActions')}>
         <View style={styles.qa}>
           {quickActions.map((q) => (
-            <AP_Button key={q} label={t(q)} variant="ghost" />
+            <AP_Button
+              key={q}
+              label={t(q)}
+              variant="ghost"
+              icon={<AP_Icon name={QA_ICONS[q]} size={16} color={colors.brand} />}
+            />
           ))}
         </View>
       </AP_Card>
@@ -113,6 +138,16 @@ const Metric: React.FC<{ value: string; label: string; color: string }> = ({ val
 );
 
 const styles = StyleSheet.create({
+  heroRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  heroPulse: {
+    width: 46,
+    height: 46,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  heroBody: { flex: 1, gap: 2 },
   metrics: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
   metric: { width: '40%' },
   qa: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },

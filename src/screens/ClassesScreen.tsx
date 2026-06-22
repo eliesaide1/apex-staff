@@ -7,10 +7,18 @@ import {
   AP_Button,
   AP_StatusPill,
   AP_EmptyState,
+  AP_Icon,
   useI18n,
   colors,
   Priority,
 } from '@apex/shared';
+
+const STATUS_ICON: Record<string, string> = {
+  present: 'userCheck',
+  absent: 'userX',
+  late: 'clock',
+  excused: 'user',
+};
 import { api, ClassDto, RosterStudent } from '../api';
 
 type Status = RosterStudent['status'];
@@ -110,6 +118,21 @@ export const ClassesScreen: React.FC = () => {
             <AP_ListItem
               key={s.id}
               tone={toneFor[s.status]}
+              leading={
+                <AP_Icon
+                  name={STATUS_ICON[s.status]}
+                  size={20}
+                  color={
+                    s.status === 'present'
+                      ? colors.ok
+                      : s.status === 'absent'
+                      ? colors.high
+                      : s.status === 'late'
+                      ? colors.medInk
+                      : colors.low
+                  }
+                />
+              }
               title={s.name}
               onPress={() => cycle(s.id)}
               trailing={<AP_StatusPill label={t(s.status)} tone={toneFor[s.status]} />}
@@ -117,8 +140,20 @@ export const ClassesScreen: React.FC = () => {
           ))
         )}
         <View style={styles.actions}>
-          <AP_Button label={t('markSkip')} variant="ghost" full onPress={onFlagSkip} />
-          <AP_Button label={t('saveAttendance')} full loading={saving} onPress={onSave} />
+          <AP_Button
+            label={t('markSkip')}
+            variant="ghost"
+            full
+            icon={<AP_Icon name="flag" size={17} color={colors.brand} />}
+            onPress={onFlagSkip}
+          />
+          <AP_Button
+            label={t('saveAttendance')}
+            full
+            loading={saving}
+            icon={<AP_Icon name="check" size={17} color={colors.white} />}
+            onPress={onSave}
+          />
         </View>
       </AP_Card>
     </AP_Screen>

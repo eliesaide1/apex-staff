@@ -8,7 +8,9 @@ import {
   AP_Select,
   AP_Textbox,
   AP_DatePicker,
+  AP_Icon,
   useI18n,
+  colors,
 } from '@apex/shared';
 
 export const NurseScreen: React.FC = () => {
@@ -18,17 +20,24 @@ export const NurseScreen: React.FC = () => {
   return (
     <AP_Screen>
       <AP_Card>
-        <AP_Button label={t('logNurse')} full onPress={() => setOpen(true)} />
+        <AP_Button
+          label={t('logNurse')}
+          full
+          icon={<AP_Icon name="activity" size={17} color={colors.white} />}
+          onPress={() => setOpen(true)}
+        />
       </AP_Card>
       <AP_Card title={t('recentVisits')}>
         <AP_ListItem
           tone="high"
+          leading={<AP_Icon name="thermometer" size={20} color={colors.high} />}
           title={L({ en: 'Omar Khalil', ar: 'عمر خليل' })}
           description={L({ en: 'Headache — resting', ar: 'صداع — يرتاح' })}
           time="10:45 AM"
         />
         <AP_ListItem
           tone="ok"
+          leading={<AP_Icon name="pill" size={20} color={colors.ok} />}
           title={L({ en: 'Sara Nasr', ar: 'سارة نصر' })}
           description={L({ en: 'Minor scrape — treated', ar: 'خدش بسيط — عولج' })}
           time="9:20 AM"

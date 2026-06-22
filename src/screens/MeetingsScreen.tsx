@@ -6,7 +6,9 @@ import {
   AP_ListItem,
   AP_Button,
   AP_StatusPill,
+  AP_Icon,
   useI18n,
+  colors,
 } from '@apex/shared';
 
 export const MeetingsScreen: React.FC = () => {
@@ -16,6 +18,7 @@ export const MeetingsScreen: React.FC = () => {
       <AP_Card title={t('incomingRequests')}>
         <AP_ListItem
           tone="med"
+          leading={<AP_Icon name="user" size={20} color={colors.medInk} />}
           title={L({ en: 'Rami Khalil (parent)', ar: 'رامي خليل (ولي أمر)' })}
           description={L({ en: 'Re: Omar — behavior follow-up', ar: 'بخصوص عمر — متابعة سلوك' })}
           footer={
@@ -29,13 +32,19 @@ export const MeetingsScreen: React.FC = () => {
       </AP_Card>
       <AP_Card title={t('upcomingMeetings')}>
         <AP_ListItem
+          tone="ok"
+          leading={<AP_Icon name="calendar" size={20} color={colors.ok} />}
           title={L({ en: 'Parent–Teacher meeting', ar: 'اجتماع ولي أمر ومعلم' })}
           description={L({ en: 'Mon 18 June, 3:30 PM', ar: 'الإثنين 18 يونيو، 3:30 م' })}
           trailing={<AP_StatusPill label="OK" tone="ok" />}
         />
       </AP_Card>
       <AP_Card>
-        <AP_Button label={t('requestMeeting')} full />
+        <AP_Button
+          label={t('requestMeeting')}
+          full
+          icon={<AP_Icon name="calendar" size={17} color={colors.white} />}
+        />
       </AP_Card>
     </AP_Screen>
   );

@@ -8,7 +8,9 @@ import {
   AP_Modal,
   AP_Select,
   AP_Textbox,
+  AP_Icon,
   useI18n,
+  colors,
 } from '@apex/shared';
 
 export const IncidentsScreen: React.FC = () => {
@@ -20,17 +22,24 @@ export const IncidentsScreen: React.FC = () => {
   return (
     <AP_Screen>
       <AP_Card>
-        <AP_Button label={t('reportIncident')} full onPress={() => setOpen(true)} />
+        <AP_Button
+          label={t('reportIncident')}
+          full
+          icon={<AP_Icon name="flag" size={17} color={colors.white} />}
+          onPress={() => setOpen(true)}
+        />
       </AP_Card>
       <AP_Card title={t('recentIncidents')}>
         <AP_ListItem
           tone="high"
+          leading={<AP_Icon name="flag" size={20} color={colors.high} />}
           title={L({ en: 'Omar Khalil · Disruption', ar: 'عمر خليل · إزعاج' })}
           description={L({ en: 'Repeated talking in class', ar: 'تكرار الحديث في الصف' })}
           trailing={<AP_StatusPill label="HIGH" tone="high" />}
         />
         <AP_ListItem
           tone="med"
+          leading={<AP_Icon name="flag" size={20} color={colors.medInk} />}
           title={L({ en: 'Karim Aziz · Late', ar: 'كريم عزيز · تأخر' })}
           description={L({ en: 'Late to Period 3', ar: 'تأخر عن الحصة 3' })}
           trailing={<AP_StatusPill label="MED" tone="med" />}

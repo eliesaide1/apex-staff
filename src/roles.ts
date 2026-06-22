@@ -21,12 +21,30 @@ export const ROLE_QA: Record<StaffRole, string[]> = {
   admin: ['reportIncident', 'requestMeeting', 'sendNote', 'logNurse', 'takeAttendance'],
 };
 
-/** Icon glyph + i18n label key per tab. */
-export const TAB_DEFS: Record<string, { glyph: string; key: string }> = {
-  today: { glyph: '🏠', key: 'today' },
-  classes: { glyph: '📋', key: 'classes' },
-  incidents: { glyph: '⚠️', key: 'incidents' },
-  nurse: { glyph: '🩺', key: 'nurse' },
-  meetings: { glyph: '📅', key: 'meetings' },
-  students: { glyph: '👥', key: 'students' },
+/** Icon name (AP_Icon) + i18n label key per tab — copied from apex-staff-app.html TAB_DEFS. */
+export const TAB_DEFS: Record<string, { icon: string; key: string }> = {
+  today: { icon: 'home', key: 'today' },
+  classes: { icon: 'clipboardCheck', key: 'classes' },
+  incidents: { icon: 'flag', key: 'incidents' },
+  nurse: { icon: 'activity', key: 'nurse' },
+  meetings: { icon: 'calendar', key: 'meetings' },
+  students: { icon: 'users', key: 'students' },
+};
+
+/** Quick-action icon name per action key — copied from apex-staff-app.html QA_ACTIONS. */
+export const QA_ICONS: Record<string, string> = {
+  takeAttendance: 'clipboardCheck',
+  reportIncident: 'flag',
+  logNurse: 'activity',
+  requestMeeting: 'calendar',
+  sendNote: 'send',
+};
+
+/** Role icon + brand color — copied from apex-staff-app.html ROLES. */
+export const ROLE_ICON: Record<StaffRole, { icon: string; color: string }> = {
+  teacher: { icon: 'book', color: '#3b4d9e' },
+  nurse: { icon: 'activity', color: '#e63946' },
+  supervisor: { icon: 'shield', color: '#e8a317' },
+  counselor: { icon: 'heart', color: '#2a9d8f' },
+  admin: { icon: 'school', color: '#5566c9' },
 };

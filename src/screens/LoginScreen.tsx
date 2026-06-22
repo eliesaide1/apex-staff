@@ -6,11 +6,13 @@ import {
   AP_Text,
   AP_Textbox,
   AP_Button,
+  AP_Logo,
+  AP_Icon,
   useI18n,
   colors,
 } from '@apex/shared';
 import { useAuth } from '../navigation/AuthContext';
-import { ROLE_ORDER, StaffRole } from '../roles';
+import { ROLE_ORDER, ROLE_ICON, StaffRole } from '../roles';
 import { api } from '../api';
 
 export const LoginScreen: React.FC = () => {
@@ -46,6 +48,9 @@ export const LoginScreen: React.FC = () => {
         <AP_Button label="EN" variant={lang === 'en' ? 'primary' : 'ghost'} onPress={() => setLang('en')} />
         <AP_Button label="ع" variant={lang === 'ar' ? 'primary' : 'ghost'} onPress={() => setLang('ar')} />
       </View>
+      <View style={styles.logoWrap}>
+        <AP_Logo size={64} />
+      </View>
       <AP_Text variant="h1" align="center" color={colors.brand}>
         APEX
       </AP_Text>
@@ -67,6 +72,13 @@ export const LoginScreen: React.FC = () => {
               key={r}
               label={roleLabel(r)}
               variant={role === r ? 'primary' : 'ghost'}
+              icon={
+                <AP_Icon
+                  name={ROLE_ICON[r].icon}
+                  size={16}
+                  color={role === r ? colors.white : colors.brand}
+                />
+              }
               onPress={() => setRole(r)}
             />
           ))}
@@ -82,6 +94,7 @@ export const LoginScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   langRow: { flexDirection: 'row', justifyContent: 'flex-end', gap: 8, marginBottom: 8 },
+  logoWrap: { alignItems: 'center', marginBottom: 8 },
   tag: { marginBottom: 16 },
   lead: { marginBottom: 16 },
   label: { marginBottom: 8 },

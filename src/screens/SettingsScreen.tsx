@@ -7,13 +7,14 @@ import {
   AP_Text,
   AP_Avatar,
   AP_Button,
+  AP_Icon,
   useI18n,
   colors,
 } from '@apex/shared';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { useAuth } from '../navigation/AuthContext';
-import { ROLE_ORDER, StaffRole } from '../roles';
+import { ROLE_ORDER, ROLE_ICON, StaffRole } from '../roles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
@@ -42,6 +43,13 @@ export const SettingsScreen: React.FC<Props> = ({ navigation }) => {
               key={r}
               label={roleLabel(r)}
               variant={role === r ? 'primary' : 'ghost'}
+              icon={
+                <AP_Icon
+                  name={ROLE_ICON[r].icon}
+                  size={16}
+                  color={role === r ? colors.white : colors.brand}
+                />
+              }
               onPress={() => setRole(r)}
             />
           ))}
@@ -60,7 +68,13 @@ export const SettingsScreen: React.FC<Props> = ({ navigation }) => {
       </AP_Card>
 
       <AP_Card>
-        <AP_Button label={t('logout')} variant="danger" full onPress={signOut} />
+        <AP_Button
+          label={t('logout')}
+          variant="danger"
+          full
+          icon={<AP_Icon name="logout" size={17} color={colors.high} />}
+          onPress={signOut}
+        />
         <AP_Text variant="caption" align="center" color={colors.muted} style={styles.ver}>
           Apex AI · Staff App · v1
         </AP_Text>

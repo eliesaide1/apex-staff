@@ -3,7 +3,7 @@ import { Pressable, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AP_Text, AP_Badge, useI18n, colors } from '@apex/shared';
+import { AP_Badge, AP_Icon, useI18n, colors } from '@apex/shared';
 import { RootStackParamList } from './types';
 import { useAuth } from './AuthContext';
 import { ROLE_TABS, TAB_DEFS } from '../roles';
@@ -30,13 +30,13 @@ const SCREENS: Record<string, React.ComponentType<any>> = {
 };
 
 const HeaderTools: React.FC<{ onBell: () => void; onSettings: () => void }> = ({ onBell, onSettings }) => (
-  <View style={{ flexDirection: 'row', gap: 16, paddingHorizontal: 12 }}>
+  <View style={{ flexDirection: 'row', gap: 16, paddingHorizontal: 12, alignItems: 'center' }}>
     <Pressable onPress={onBell}>
-      <AP_Text color={colors.white}>🔔</AP_Text>
+      <AP_Icon name="bell" size={21} color={colors.white} />
       <AP_Badge count={3} />
     </Pressable>
     <Pressable onPress={onSettings}>
-      <AP_Text color={colors.white}>⚙️</AP_Text>
+      <AP_Icon name="settings" size={20} color={colors.white} />
     </Pressable>
   </View>
 );
@@ -71,7 +71,7 @@ const MainTabs: React.FC = () => {
             options={{
               title: t(def.key),
               tabBarIcon: ({ focused }) => (
-                <AP_Text color={focused ? colors.brand : colors.muted}>{def.glyph}</AP_Text>
+                <AP_Icon name={def.icon} size={22} color={focused ? colors.brand : colors.muted} />
               ),
             }}
           />
