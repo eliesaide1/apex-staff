@@ -1,22 +1,4 @@
 {
-  "expo": {
-    "name": "Apex Staff",
-    "slug": "apex-staff",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "scheme": "apexstaff",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "app.apex.staff"
-    },
-    "android": {
-      "package": "app.apex.staff",
-      "edgeToEdgeEnabled": true
-    },
-    "web": {
-      "bundler": "metro"
-    }
-  }
+  "name": "ApexStaff",
+  "displayName": "Apex Staff"
 }

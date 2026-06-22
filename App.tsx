@@ -1,5 +1,6 @@
-import React from 'react';
-import { StatusBar } from 'expo-status-bar';
+import React, { useEffect } from 'react';
+import { StatusBar } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   configureI18n,
@@ -25,16 +26,22 @@ initClientProxy({ baseURL: API_BASE_URL });
 registerStaffMocks();
 
 export default function App() {
+  useEffect(() => {
+    // place for push-notification registration, deep links, etc.
+  }, []);
+
   return (
-    <SafeAreaProvider>
-      <AuthProvider>
-        <StatusBar style="light" />
-        <RootNavigator />
-        {/* Global loader (interceptor) + global alert (clientProxy) + toast */}
-        <AP_Loader global />
-        <AP_Alert />
-        <AP_Toast />
-      </AuthProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <AuthProvider>
+          <StatusBar barStyle="light-content" />
+          <RootNavigator />
+          {/* Global loader (interceptor) + global alert (clientProxy) + toast */}
+          <AP_Loader global />
+          <AP_Alert />
+          <AP_Toast />
+        </AuthProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }

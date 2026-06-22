@@ -1,6 +1,6 @@
 /**
- * Single backend shared with the parent app (CONVENTIONS.md §0). Override via
- * EXPO_PUBLIC_API_URL.
+ * Single backend for BOTH apps (CONVENTIONS.md §0). Override at build time via
+ * the RN_API_URL env var (inlined by Metro/Babel); defaults to the local backend.
  */
 export const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000/api';
+  process.env.RN_API_URL ?? 'http://localhost:3000/api';
