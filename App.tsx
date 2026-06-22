@@ -15,15 +15,17 @@ import { strings } from './src/i18n/strings';
 import { API_BASE_URL } from './src/config';
 import { AuthProvider } from './src/navigation/AuthContext';
 import { RootNavigator } from './src/navigation/RootNavigator';
-import { registerStaffMocks } from './src/api/mocks';
+// Mock adapter kept in the repo but INACTIVE — requests hit the live backend.
+// import { registerStaffMocks } from './src/api/mocks';
 
 // Bootstrap shared singletons once. Same shared package + same backend as parent-app.
 // Brand the shared AP_ library indigo for staff (parent stays teal default).
 configureTheme(STAFF_BRAND);
 configureI18n(strings, 'en');
 initClientProxy({ baseURL: API_BASE_URL });
-// Offline seed for the staff routes until the one shared backend is reachable.
-registerStaffMocks();
+// LIVE backend: the in-process mock adapter is no longer registered, so the
+// identical clientProxy calls now hit http://localhost:3000/api (real Postgres).
+// registerStaffMocks();
 
 export default function App() {
   useEffect(() => {

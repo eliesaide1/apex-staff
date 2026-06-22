@@ -18,8 +18,8 @@ import { api } from '../api';
 export const LoginScreen: React.FC = () => {
   const { t, setLang, lang } = useI18n();
   const { signIn } = useAuth();
-  const [email, setEmail] = useState('staff@apex.app');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('teacher@apex.test');
+  const [password, setPassword] = useState('demopass');
   const [role, setRole] = useState<StaffRole>('teacher');
   const [loading, setLoading] = useState(false);
 
