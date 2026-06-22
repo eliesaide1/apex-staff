@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { authStore } from '@apex/shared';
+import {
+  authStore,
+  connect as connectRealtime,
+  disconnect as disconnectRealtime,
+  notificationStore,
+} from '@apex/shared';
 import { StaffRole } from '../roles';
 
 interface AuthState {
@@ -29,8 +34,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     authStore.hydrate().then((t) => {
       setToken(t);
       setReady(true);
+      // Returning user with a persisted JWT — connect realtime (carries the JWT).
+      if (t) connectRealtime(t);
     });
-    authStore.setUnauthenticatedHandler(() => setToken(null));
+    authStore.setUnauthenticatedHandler(() => {
+      disconnectRealtime();
+      notificationStore.reset();
+      setToken(null);
+    });
   }, []);
 
   const value = useMemo<AuthState>(
@@ -42,9 +53,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await authStore.setToken(t);
         setRole(r);
         setToken(t);
+        // Connect the socket on login success so it carries the fresh JWT.
+        connectRealtime(t);
       },
       signOut: async () => {
         await authStore.setToken(null);
+        disconnectRealtime();
+        notificationStore.reset();
         setToken(null);
       },
       setRole,

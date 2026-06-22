@@ -78,4 +78,15 @@ export const api = {
   // Foundation — students (RBAC-scoped server-side)
   searchStudents: (q: string) =>
     clientProxy.get<Paginated<{ id: string; name: string; grade: string }>>(`/staff/students`, { params: { q } }),
+
+  // Communication — direct staff -> parent notification (POST /api/staff/notify).
+  // Backend resolves the student's parents and pushes a 'notification' socket
+  // event to each; returns how many were sent.
+  notifyParent: (body: {
+    studentId: string;
+    title: string;
+    body: string;
+    category?: string;
+    priority?: 'high' | 'medium' | 'low';
+  }) => clientProxy.post<{ sent: number }>('/staff/notify', body),
 };
