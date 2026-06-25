@@ -1,12 +1,23 @@
 import React from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AP_Badge, AP_Icon, useI18n, colors } from '@apex/shared';
+import {
+  createBottomTabNavigator,
+  BottomTabHeaderProps,
+} from '@react-navigation/bottom-tabs';
+import {
+  AP_Badge,
+  AP_Icon,
+  AP_AppHeader,
+  AP_HeaderChip,
+  useI18n,
+  useUnreadCount,
+  colors,
+} from '@apex/shared';
 import { RootStackParamList } from './types';
 import { useAuth } from './AuthContext';
-import { ROLE_TABS, TAB_DEFS } from '../roles';
+import { ROLE_TABS, TAB_DEFS, ROLE_IDENTITY } from '../roles';
 import { LoginScreen } from '../screens/LoginScreen';
 import { TodayScreen } from '../screens/TodayScreen';
 import { ClassesScreen } from '../screens/ClassesScreen';
@@ -29,17 +40,47 @@ const SCREENS: Record<string, React.ComponentType<any>> = {
   students: StudentsScreen,
 };
 
-const HeaderTools: React.FC<{ onBell: () => void; onSettings: () => void }> = ({ onBell, onSettings }) => (
-  <View style={{ flexDirection: 'row', gap: 16, paddingHorizontal: 12, alignItems: 'center' }}>
-    <Pressable onPress={onBell}>
-      <AP_Icon name="bell" size={21} color={colors.white} />
-      <AP_Badge count={3} />
-    </Pressable>
-    <Pressable onPress={onSettings}>
-      <AP_Icon name="settings" size={20} color={colors.white} />
-    </Pressable>
-  </View>
-);
+/** Bell (with live unread badge) + settings gear — the header tools slot. */
+const HeaderTools: React.FC<{ onBell: () => void; onSettings: () => void }> = ({ onBell, onSettings }) => {
+  const unread = useUnreadCount();
+  return (
+    <>
+      <Pressable onPress={onBell}>
+        <AP_Icon name="bell" size={21} color={colors.white} />
+        <AP_Badge count={unread} />
+      </Pressable>
+      <Pressable onPress={onSettings}>
+        <AP_Icon name="settings" size={20} color={colors.white} />
+      </Pressable>
+    </>
+  );
+};
+
+/**
+ * The single brand (indigo) header block for the staff Tab.Navigator: logo +
+ * APEX wordmark, current tab title, today's date, bell/settings tools, and a
+ * single role-identity chip (current user name + role) inside the block —
+ * matching the staff prototype's header.
+ */
+const StaffHeader: React.FC<BottomTabHeaderProps> = ({ navigation, options }) => {
+  const { t, L, formatHeaderDate } = useI18n();
+  const { role } = useAuth();
+  const id = ROLE_IDENTITY[role];
+  return (
+    <AP_AppHeader
+      title={options.title ?? ''}
+      subtitle={formatHeaderDate()}
+      right={
+        <HeaderTools
+          onBell={() => navigation.getParent()?.navigate('Notifications' as never)}
+          onSettings={() => navigation.getParent()?.navigate('Settings' as never)}
+        />
+      }
+    >
+      <AP_HeaderChip label={`${L(id.name)} · ${t(id.roleKey)}`} initials={id.init} color={id.color} active />
+    </AP_AppHeader>
+  );
+};
 
 const MainTabs: React.FC = () => {
   const { t } = useI18n();
@@ -48,18 +89,11 @@ const MainTabs: React.FC = () => {
 
   return (
     <Tab.Navigator
-      screenOptions={({ navigation }) => ({
-        headerStyle: { backgroundColor: colors.brand },
-        headerTintColor: colors.white,
+      screenOptions={{
+        header: (props) => <StaffHeader {...props} />,
         tabBarActiveTintColor: colors.brand,
         tabBarInactiveTintColor: colors.muted,
-        headerRight: () => (
-          <HeaderTools
-            onBell={() => navigation.getParent()?.navigate('Notifications')}
-            onSettings={() => navigation.getParent()?.navigate('Settings')}
-          />
-        ),
-      })}
+      }}
     >
       {tabIds.map((id) => {
         const def = TAB_DEFS[id];

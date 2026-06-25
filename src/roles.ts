@@ -48,3 +48,19 @@ export const ROLE_ICON: Record<StaffRole, { icon: string; color: string }> = {
   counselor: { icon: 'heart', color: '#2a9d8f' },
   admin: { icon: 'school', color: '#5566c9' },
 };
+
+/**
+ * Per-role staff identity (name + initials + avatar color) — copied from the
+ * apex-staff-app.html ROLES map. Used for the single role-identity chip in the
+ * header's chip row. (en/ar names, and the role label uses the i18n key.)
+ */
+export const ROLE_IDENTITY: Record<
+  StaffRole,
+  { name: { en: string; ar: string }; init: string; color: string; roleKey: string }
+> = {
+  teacher: { name: { en: 'Layla Hadid', ar: 'ليلى حديد' }, init: 'LH', color: '#3b4d9e', roleKey: 'teacher' },
+  nurse: { name: { en: 'Nadia Saab', ar: 'نادية صعب' }, init: 'NS', color: '#e63946', roleKey: 'nurseR' },
+  supervisor: { name: { en: 'Sami Tannous', ar: 'سامي طنوس' }, init: 'ST', color: '#e8a317', roleKey: 'supervisor' },
+  counselor: { name: { en: 'Rania Aoun', ar: 'رانيا عون' }, init: 'RA', color: '#2a9d8f', roleKey: 'counselor' },
+  admin: { name: { en: 'Karim Daou', ar: 'كريم ضو' }, init: 'KD', color: '#5566c9', roleKey: 'admin' },
+};
